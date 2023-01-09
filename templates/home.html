@@ -13,7 +13,9 @@
 <ul id='messages'>
 </ul>
 <script>
-    var ws = new WebSocket("ws://localhost:8000/ws");
+    const client_cookie_string = '{{ client_cookie_string }}';
+    console.log(client_cookie_string)
+    var ws = new WebSocket("ws://localhost:8000/ws/"+client_cookie_string);
     ws.onmessage = function (event) {
         var messages = document.getElementById('messages')
         var message = document.createElement('li')
