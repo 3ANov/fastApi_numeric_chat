@@ -1,31 +1,44 @@
 {% extends 'base.html' %}
 
 {% block extrahead %}
-    <title>Главная страница - чатик</title>
+<title>Главная страница - чатик</title>
 {% endblock extrahead %}
 
 {% block content %}
-    <h1>WebSocket Chat</h1>
-        <form action="" onsubmit="sendMessage(event)">
-            <input type="text" id="messageText" autocomplete="off"/>
-            <button>Send</button>
-        </form>
-        <ul id='messages'>
-        </ul>
-        <script>
-            var ws = new WebSocket("ws://localhost:8000/ws");
-            ws.onmessage = function(event) {
-                var messages = document.getElementById('messages')
-                var message = document.createElement('li')
-                var content = document.createTextNode(event.data)
-                message.appendChild(content)
-                messages.appendChild(message)
-            };
-            function sendMessage(event) {
-                var input = document.getElementById("messageText")
-                ws.send(input.value)
-                input.value = ''
-                event.preventDefault()
-            }
-        </script>
+<h1>WebSocket Chat</h1>
+<form action="" onsubmit="sendMessage(event)">
+    <input type="text" id="messageText" autocomplete="off"/>
+    <button>Send</button>
+</form>
+<ul id='messages'>
+</ul>
+<script>
+    var ws = new WebSocket("ws://localhost:8000/ws");
+    ws.onmessage = function (event) {
+        var messages = document.getElementById('messages')
+        var message = document.createElement('li')
+
+
+        const msg = JSON.parse(event.data);
+        const time = new Date(msg.date);
+        const timeStr = time.toLocaleTimeString();
+        var text = `${msg.message_count} : ${msg.text} (${timeStr})`;
+        var content = document.createTextNode(text)
+
+        message.appendChild(content)
+        messages.appendChild(message)
+    };
+
+    function sendMessage(event) {
+        var input_text = document.getElementById("messageText")
+        const msg = {
+            text: input_text.value,
+            date: Date.now()
+        };
+
+        ws.send(JSON.stringify(msg))
+        input_text.value = ''
+        event.preventDefault()
+    }
+</script>
 {% endblock content %}
