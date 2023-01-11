@@ -3,7 +3,11 @@
 Создать виртуальную среду:
 ``` bash
 cd fastApi_numeric_chat/
+```
+``` bash
 python3 -m venv .
+```
+``` bash
 source venv/bin/activate
 ```
 
