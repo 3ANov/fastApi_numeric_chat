@@ -1,11 +1,14 @@
+import logging
+
+
 from secrets import token_urlsafe
 from typing import Dict
-from fastapi import FastAPI, Request, Cookie
+
+from fastapi import FastAPI, Request
 from fastapi.templating import Jinja2Templates
 from fastapi.responses import HTMLResponse
 from fastapi.websockets import WebSocket
 from fastapi.websockets import WebSocketDisconnect
-import logging
 
 
 logging.basicConfig(format='%(asctime)s %(levelname)s: %(message)s', level=logging.DEBUG)
@@ -57,3 +60,4 @@ async def websocket_endpoint(websocket: WebSocket, client_cookie_string: str):
     except WebSocketDisconnect:
             manager.disconnect(client_cookie_string)
             logging.info(manager.active_connections)
+

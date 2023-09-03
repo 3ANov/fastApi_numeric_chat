@@ -18,5 +18,5 @@ pip install -r requirements.txt
 
 Запустить приложение http://localhost:8000/:
 ``` bash
-uvicorn main:app
+python3 start_app.py
 ```
